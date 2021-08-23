@@ -26,11 +26,17 @@ namespace AzureAppServiceUpdate
         {
             try
             {
-                AzureCredentials credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(
-                    clientId,
-                    clientSecret,
-                    tenantId,
-                    AzureEnvironment.AzureGlobalCloud).WithDefaultSubscription(subscriptionId);
+
+                AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+                var serviceCreds = new TokenCredentials(await azureServiceTokenProvider.GetAccessTokenAsync("https://management.azure.com/", tenantId).ConfigureAwait(false));
+                var graphCreds = new TokenCredentials(await azureServiceTokenProvider.GetAccessTokenAsync("https://graph.microsoft.com/", tenantId).ConfigureAwait(false));
+                AzureCredentials credentials = new AzureCredentials(serviceCreds, graphCreds, tenantId, AzureEnvironment.AzureGlobalCloud);
+
+                //AzureCredentials credentials = SdkContext.AzureCredentialsFactory.FromServicePrincipal(
+                //    clientId,
+                //    clientSecret,
+                //    tenantId,
+                //    AzureEnvironment.AzureGlobalCloud).WithDefaultSubscription(subscriptionId);
 
 
                 RestClient restClient = RestClient

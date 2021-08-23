@@ -9,13 +9,12 @@ namespace AzureAppServiceUpdate
         {
             Console.WriteLine("Updating Function Apps Settings");
             await AppServiceUpdate.UpdateFunctionAppSettings();
+            //Console.WriteLine("Stopping AppService");
+            //await AppServiceUpdate.StopAppService();
 
-            Console.WriteLine("Stopping AppService");
-            await AppServiceUpdate.StopAppService();
+            //Console.WriteLine("Starting AppService");
+            //await AppServiceUpdate.StartAppService();
 
-            Console.WriteLine("Starting AppService");
-            await AppServiceUpdate.StartAppService();
-         
         }
     }
 }
